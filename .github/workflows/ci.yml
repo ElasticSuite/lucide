@@ -3,13 +3,13 @@ name: Continuous integration icons
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - icons/**
 
 jobs:
   create-release:
-    if: github.repository == 'lucide-icons/lucide'
+    if: github.repository == 'ElasticSuite/lucide'
 
     runs-on: ubuntu-latest
 

@@ -13,7 +13,7 @@ on:
 
 jobs:
   pre-build:
-    if: github.repository == 'lucide-icons/lucide' && contains('["locness3","ericfennis", "johnletey"]', github.actor)
+    if: github.repository == 'ElasticSuite/lucide' # && contains('["locness3","ericfennis", "johnletey"]', github.actor)
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.get_version.outputs.VERSION }}
@@ -28,7 +28,7 @@ jobs:
           VERSION_REF: ${{ github.event.inputs.version || github.ref }}
 
   lucide:
-    if: github.repository == 'lucide-icons/lucide'
+    if: github.repository == 'ElasticSuite/lucide'
     runs-on: ubuntu-latest
     needs: pre-build
     steps:
@@ -44,19 +44,22 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+        run: npm config set //verdaccio.devops.elasticsuite.com/:_authToken ${{ secrets.NPM_TOKEN }}
+
+      - name: Set Registry
+        run: yarn config set registry https://verdaccio.devops.elasticsuite.com
 
       - name: Set new version
-        run: yarn workspace lucide version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+        run: yarn workspace @elastic-internal/lucide version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
 
       - name: Build
-        run: yarn workspace lucide build
+        run: yarn workspace @elastic-internal/lucide build
 
       - name: Test
-        run: yarn workspace lucide test
+        run: yarn workspace @elastic-internal/lucide test
 
       - name: Publish
-        run: yarn workspace lucide publish
+        run: yarn workspace @elastic-internal/lucide publish
 
       - name: Upload package.json
         uses: actions/upload-artifact@v2
@@ -65,7 +68,7 @@ jobs:
           path: packages/lucide/package.json
 
   lucide-react:
-    if: github.repository == 'lucide-icons/lucide'
+    if: github.repository == 'ElasticSuite/lucide'
     runs-on: ubuntu-latest
     needs: pre-build
     steps:
@@ -82,19 +85,22 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+        run: npm config set //verdaccio.devops.elasticsuite.com/:_authToken ${{ secrets.NPM_TOKEN }}
+
+      - name: Set Registry
+        run: yarn config set registry https://verdaccio.devops.elasticsuite.com
 
       - name: Set package.json version lucide
-        run: yarn workspace lucide-react version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+        run: yarn workspace @elastic-internal/lucide-react version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
 
       - name: Build
-        run: yarn workspace lucide-react build
+        run: yarn workspace @elastic-internal/lucide-react build
 
       - name: Test
-        run: yarn workspace lucide-react test
+        run: yarn workspace @elastic-internal/lucide-react test
 
       - name: Publish
-        run: yarn workspace lucide-react publish
+        run: yarn workspace @elastic-internal/lucide-react publish
 
       - name: Upload package.json
         uses: actions/upload-artifact@v2
@@ -102,198 +108,198 @@ jobs:
           name: lucide-react-package-json
           path: packages/lucide-react/package.json
 
-  lucide-vue:
-    if: github.repository == 'lucide-icons/lucide'
-    runs-on: ubuntu-latest
-    needs: pre-build
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-
-      - name: Set new version
-        run: yarn workspace lucide-vue version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
-
-      - name: Build
-        run: yarn workspace lucide-vue build
-
-      - name: Test
-        run: yarn workspace lucide-vue test
-
-      - name: Publish
-        run: yarn workspace lucide-vue publish
-
-      - name: Upload package.json
-        uses: actions/upload-artifact@v2
-        with:
-          name: lucide-vue-package-json
-          path: packages/lucide-vue/package.json
-
-  lucide-vue-next:
-    if: github.repository == 'lucide-icons/lucide'
-    runs-on: ubuntu-latest
-    needs: pre-build
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-
-      - name: Set new version
-        run: yarn workspace lucide-vue-next version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
-
-      - name: Build
-        run: yarn workspace lucide-vue-next build
-
-      - name: Test
-        run: yarn workspace lucide-vue-next test
-
-      - name: Publish
-        run: yarn workspace lucide-vue-next publish
-
-      - name: Upload package.json
-        uses: actions/upload-artifact@v2
-        with:
-          name: lucide-vue-next-package-json
-          path: packages/lucide-vue-next/package.json
-
-  lucide-angular:
-    if: github.repository == 'lucide-icons/lucide'
-    runs-on: ubuntu-latest
-    needs: pre-build
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-
-      - name: Set package.json version lucide
-        run: yarn workspace lucide-angular version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
-
-      - name: Build
-        run: yarn workspace lucide-angular build
-
-      - name: Test
-        run: yarn workspace lucide-angular test:headless
-
-      - name: Publish
-        run: yarn workspace lucide-angular publish dist
-
-      - name: Upload package.json
-        uses: actions/upload-artifact@v2
-        with:
-          name: lucide-angular-package-json
-          path: packages/lucide-angular/package.json
-
-  lucide-preact:
-    if: github.repository == 'lucide-icons/lucide'
-    runs-on: ubuntu-latest
-    needs: pre-build
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-
-      - name: Set package.json version lucide
-        run: yarn workspace lucide-preact version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
-
-      - name: Build
-        run: yarn workspace lucide-preact build
-
-      - name: Test
-        run: yarn workspace lucide-preact test
-
-      - name: Publish
-        run: yarn workspace lucide-preact publish
-
-      - name: Upload package.json
-        uses: actions/upload-artifact@v2
-        with:
-          name: lucide-preact-package-json
-          path: packages/lucide-preact/package.json
-
-  lucide-svelte:
-    if: github.repository == 'lucide-icons/lucide'
-    runs-on: ubuntu-latest
-    needs: pre-build
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
-
-      - name: Set package.json version lucide
-        run: yarn workspace lucide-svelte version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
-
-      - name: Build
-        run: yarn workspace lucide-svelte build
-
-      - name: Test
-        run: yarn workspace lucide-svelte test
-
-      - name: Publish
-        run: yarn workspace lucide-svelte publish
-
-      - name: Upload package.json
-        uses: actions/upload-artifact@v2
-        with:
-          name: lucide-svelte-package-json
-          path: packages/lucide-svelte/package.json
+          #  lucide-vue:
+          #    if: github.repository == 'ElasticSuite/lucide'
+          #    runs-on: ubuntu-latest
+          #    needs: pre-build
+          #    steps:
+          #      - uses: actions/checkout@v2
+          #
+          #      - name: Setup node
+          #        uses: actions/setup-node@v3
+          #        with:
+          #          node-version: 16
+          #          cache: 'yarn'
+          #          cache-dependency-path: 'yarn.lock'
+          #
+          #      - name: Install dependencies
+          #        run: yarn --frozen-lockfile
+          #
+          #      - name: Set Auth Token
+          #        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          #
+          #      - name: Set new version
+          #        run: yarn workspace lucide-vue version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+          #
+          #      - name: Build
+          #        run: yarn workspace lucide-vue build
+          #
+          #      - name: Test
+          #        run: yarn workspace lucide-vue test
+          #
+          #      - name: Publish
+          #        run: yarn workspace lucide-vue publish
+          #
+          #      - name: Upload package.json
+          #        uses: actions/upload-artifact@v2
+          #        with:
+          #          name: lucide-vue-package-json
+          #          path: packages/lucide-vue/package.json
+          #
+          #  lucide-vue-next:
+          #    if: github.repository == 'ElasticSuite/lucide'
+          #    runs-on: ubuntu-latest
+          #    needs: pre-build
+          #    steps:
+          #      - uses: actions/checkout@v2
+          #
+          #      - name: Setup node
+          #        uses: actions/setup-node@v3
+          #        with:
+          #          node-version: 16
+          #          cache: 'yarn'
+          #          cache-dependency-path: 'yarn.lock'
+          #
+          #      - name: Install dependencies
+          #        run: yarn --frozen-lockfile
+          #
+          #      - name: Set Auth Token
+          #        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          #
+          #      - name: Set new version
+          #        run: yarn workspace lucide-vue-next version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+          #
+          #      - name: Build
+          #        run: yarn workspace lucide-vue-next build
+          #
+          #      - name: Test
+          #        run: yarn workspace lucide-vue-next test
+          #
+          #      - name: Publish
+          #        run: yarn workspace lucide-vue-next publish
+          #
+          #      - name: Upload package.json
+          #        uses: actions/upload-artifact@v2
+          #        with:
+          #          name: lucide-vue-next-package-json
+          #          path: packages/lucide-vue-next/package.json
+          #
+          #  lucide-angular:
+          #    if: github.repository == 'ElasticSuite/lucide'
+          #    runs-on: ubuntu-latest
+          #    needs: pre-build
+          #    steps:
+          #      - uses: actions/checkout@v2
+          #
+          #      - name: Setup node
+          #        uses: actions/setup-node@v3
+          #        with:
+          #          node-version: 16
+          #          cache: 'yarn'
+          #          cache-dependency-path: 'yarn.lock'
+          #
+          #      - name: Install dependencies
+          #        run: yarn --frozen-lockfile
+          #
+          #      - name: Set Auth Token
+          #        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          #
+          #      - name: Set package.json version lucide
+          #        run: yarn workspace lucide-angular version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+          #
+          #      - name: Build
+          #        run: yarn workspace lucide-angular build
+          #
+          #      - name: Test
+          #        run: yarn workspace lucide-angular test:headless
+          #
+          #      - name: Publish
+          #        run: yarn workspace lucide-angular publish dist
+          #
+          #      - name: Upload package.json
+          #        uses: actions/upload-artifact@v2
+          #        with:
+          #          name: lucide-angular-package-json
+          #          path: packages/lucide-angular/package.json
+          #
+          #  lucide-preact:
+          #    if: github.repository == 'ElasticSuite/lucide'
+          #    runs-on: ubuntu-latest
+          #    needs: pre-build
+          #    steps:
+          #      - uses: actions/checkout@v2
+          #
+          #      - name: Setup node
+          #        uses: actions/setup-node@v3
+          #        with:
+          #          node-version: 16
+          #          cache: 'yarn'
+          #          cache-dependency-path: 'yarn.lock'
+          #
+          #      - name: Install dependencies
+          #        run: yarn --frozen-lockfile
+          #
+          #      - name: Set Auth Token
+          #        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          #
+          #      - name: Set package.json version lucide
+          #        run: yarn workspace lucide-preact version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+          #
+          #      - name: Build
+          #        run: yarn workspace lucide-preact build
+          #
+          #      - name: Test
+          #        run: yarn workspace lucide-preact test
+          #
+          #      - name: Publish
+          #        run: yarn workspace lucide-preact publish
+          #
+          #      - name: Upload package.json
+          #        uses: actions/upload-artifact@v2
+          #        with:
+          #          name: lucide-preact-package-json
+          #          path: packages/lucide-preact/package.json
+          #
+          #  lucide-svelte:
+          #    if: github.repository == 'ElasticSuite/lucide'
+          #    runs-on: ubuntu-latest
+          #    needs: pre-build
+          #    steps:
+          #      - uses: actions/checkout@v2
+          #
+          #      - name: Setup node
+          #        uses: actions/setup-node@v3
+          #        with:
+          #          node-version: 16
+          #          cache: 'yarn'
+          #          cache-dependency-path: 'yarn.lock'
+          #
+          #      - name: Install dependencies
+          #        run: yarn --frozen-lockfile
+          #
+          #      - name: Set Auth Token
+          #        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          #
+          #      - name: Set package.json version lucide
+          #        run: yarn workspace lucide-svelte version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+          #
+          #      - name: Build
+          #        run: yarn workspace lucide-svelte build
+          #
+          #      - name: Test
+          #        run: yarn workspace lucide-svelte test
+          #
+          #      - name: Publish
+          #        run: yarn workspace lucide-svelte publish
+          #
+          #      - name: Upload package.json
+          #        uses: actions/upload-artifact@v2
+          #        with:
+          #          name: lucide-svelte-package-json
+          #          path: packages/lucide-svelte/package.json
 
   lucide-static:
-    if: github.repository == 'lucide-icons/lucide'
+    if: github.repository == 'ElasticSuite/lucide'
     runs-on: ubuntu-latest
     needs: [pre-build, lucide-font]
     steps:
@@ -311,19 +317,22 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Set Auth Token
-        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+        run: npm config set //verdaccio.devops.elasticsuite.com/:_authToken ${{ secrets.NPM_TOKEN }}
+
+      - name: Set Registry
+        run: yarn config set registry https://verdaccio.devops.elasticsuite.com
 
       - name: Set new version
-        run: yarn workspace lucide-static version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
+        run: yarn workspace @elastic-internal/lucide-static version --new-version ${{ needs.pre-build.outputs.VERSION }} --no-git-tag-version
 
       - name: Move Font
         run: cp -r lucide-font packages/lucide-static/font
 
       - name: Build
-        run: yarn workspace lucide-static build
+        run: yarn workspace @elastic-internal/lucide-static build
 
       - name: Publish
-        run: yarn workspace lucide-static publish
+        run: yarn workspace @elastic-internal/lucide-static publish
 
       - name: Upload package.json
         uses: actions/upload-artifact@v2
@@ -331,8 +340,68 @@ jobs:
           name: lucide-static-package-json
           path: packages/lucide-static/package.json
 
+      - name: Move things around into a package for uploading
+        run: |
+          cd packages/lucide-static/
+          mkdir upload-package
+          cp -r package.json icon-nodes.json tags.json upload-package/
+
+      - name: Upload to S3
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: 'packages/lucide-static/upload-package/'
+          destination_dir: 'lucide-static'
+
+  lucide-figma:
+    if: github.repository == 'ElasticSuite/lucide'
+    runs-on: ubuntu-latest
+    needs: [pre-build]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+          cache-dependency-path: 'yarn.lock'
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build lucide-react as a dep
+        run: yarn workspace @elastic-internal/lucide-react build
+
+      - name: Build
+        run: yarn workspace @elastic-internal/lucide-figma build
+
+      - name: Move things around into a package for uploading
+        run: |
+          cd packages/lucide-figma/
+          mkdir upload-package
+          cp -r manifest.json dist *.png upload-package/
+
+      - name: "Upload to Artifacts"
+        uses: actions/upload-artifact@v1
+        with:
+          name: lucide-figma
+          path: packages/lucide-figma/upload-package
+
+      - name: Upload to S3
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: 'packages/lucide-figma/upload-package'
+          destination_dir: 'lucide-figma'
+
+
   lucide-font:
-    if: github.repository == 'lucide-icons/lucide'
+    if: github.repository == 'ElasticSuite/lucide'
     runs-on: ubuntu-latest
     needs: pre-build
     steps:
@@ -383,88 +452,89 @@ jobs:
           name: lucide-font
           path: lucide-font
 
-  lucide-flutter:
-    if: github.repository == 'lucide-icons/lucide'
-    runs-on: ubuntu-latest
-    needs: [pre-build, lucide-font]
-    container:
-      image: cirrusci/flutter:latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-      - uses: actions/cache@v2
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('~/.pub-cache') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
-
-      - name: Setup credentials
-        run: |
-          mkdir -p ~/.pub-cache
-          cat <<EOF > ~/.pub-cache/credentials.json
-          {
-            "accessToken": "${{ secrets.GOOGLE_OAUTH_ACCESS_TOKEN }}",
-            "refreshToken": "${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}",
-            "idToken": "${{ secrets.GOOGLE_OAUTH_ID_TOKEN }}",
-            "tokenEndpoint":"https://accounts.google.com/o/oauth2/token",
-            "scopes": [ "openid", "https://www.googleapis.com/auth/userinfo.email" ],
-            "expiration": 1629835569218
-          }
-          EOF
-
-      - name: Get packages
-        run: flutter pub get
-        working-directory: packages/lucide-flutter
-
-      - name: List lucide-font folder
-        run: ls lucide-font
-
-      - name: Copy assets from lucide-font directory
-        run: |
-          mkdir packages/lucide-flutter/assets
-          cp lucide-font/lucide.ttf packages/lucide-flutter/assets/lucide.ttf
-          cp lucide-font/lucide-preview.html packages/lucide-flutter/assets/lucide-preview.html
-
-      - name: Generate exports file
-        run: |
-          dart tool/generate_fonts.dart assets/lucide-preview.html
-          flutter format .
-        working-directory: packages/lucide-flutter
-
-      - name: Test
-        run: flutter test
-        working-directory: packages/lucide-flutter
-
-      - name: Update yaml
-        run: sed -E 's/(version:)[^\n]*/\1 ${{ needs.pre-build.outputs.VERSION }}/;' pubspec.yaml > pubspec && mv pubspec pubspec.yaml
-        working-directory: packages/lucide-flutter
-
-      - name: Flutter publish
-        run: flutter pub publish -f
-        working-directory: packages/lucide-flutter
-
-      - name: Upload pubspec.yaml
-        uses: actions/upload-artifact@v2
-        with:
-          name: lucide-flutter-pubspec-yaml
-          path: packages/lucide-flutter/pubspec.yaml
+          #  lucide-flutter:
+          #    if: github.repository == 'ElasticSuite/lucide'
+          #    runs-on: ubuntu-latest
+          #    needs: [pre-build, lucide-font]
+          #    container:
+          #      image: cirrusci/flutter:latest
+          #    steps:
+          #      - uses: actions/checkout@v2
+          #      - uses: actions/download-artifact@v2
+          #      - uses: actions/cache@v2
+          #        with:
+          #          path: ~/.pub-cache
+          #          key: ${{ runner.os }}-pub-${{ hashFiles('~/.pub-cache') }}
+          #          restore-keys: |
+          #            ${{ runner.os }}-pub-
+          #
+          #      - name: Setup credentials
+          #        run: |
+          #          mkdir -p ~/.pub-cache
+          #          cat <<EOF > ~/.pub-cache/credentials.json
+          #          {
+          #            "accessToken": "${{ secrets.GOOGLE_OAUTH_ACCESS_TOKEN }}",
+          #            "refreshToken": "${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}",
+          #            "idToken": "${{ secrets.GOOGLE_OAUTH_ID_TOKEN }}",
+          #            "tokenEndpoint":"https://accounts.google.com/o/oauth2/token",
+          #            "scopes": [ "openid", "https://www.googleapis.com/auth/userinfo.email" ],
+          #            "expiration": 1629835569218
+          #          }
+          #          EOF
+          #
+          #      - name: Get packages
+          #        run: flutter pub get
+          #        working-directory: packages/lucide-flutter
+          #
+          #      - name: List lucide-font folder
+          #        run: ls lucide-font
+          #
+          #      - name: Copy assets from lucide-font directory
+          #        run: |
+          #          mkdir packages/lucide-flutter/assets
+          #          cp lucide-font/lucide.ttf packages/lucide-flutter/assets/lucide.ttf
+          #          cp lucide-font/lucide-preview.html packages/lucide-flutter/assets/lucide-preview.html
+          #
+          #      - name: Generate exports file
+          #        run: |
+          #          dart tool/generate_fonts.dart assets/lucide-preview.html
+          #          flutter format .
+          #        working-directory: packages/lucide-flutter
+          #
+          #      - name: Test
+          #        run: flutter test
+          #        working-directory: packages/lucide-flutter
+          #
+          #      - name: Update yaml
+          #        run: sed -E 's/(version:)[^\n]*/\1 ${{ needs.pre-build.outputs.VERSION }}/;' pubspec.yaml > pubspec && mv pubspec pubspec.yaml
+          #        working-directory: packages/lucide-flutter
+          #
+          #      - name: Flutter publish
+          #        run: flutter pub publish -f
+          #        working-directory: packages/lucide-flutter
+          #
+          #      - name: Upload pubspec.yaml
+          #        uses: actions/upload-artifact@v2
+          #        with:
+          #          name: lucide-flutter-pubspec-yaml
+          #          path: packages/lucide-flutter/pubspec.yaml
 
   post-release:
-    if: github.repository == 'lucide-icons/lucide'
+    if: github.repository == 'ElasticSuite/lucide'
     runs-on: ubuntu-latest
     needs:
       [
         pre-build,
         lucide,
         lucide-react,
-        lucide-vue,
-        lucide-vue-next,
-        lucide-angular,
-        lucide-svelte,
-        lucide-preact,
-        lucide-flutter,
+        #lucide-vue,
+        #lucide-vue-next,
+        #lucide-angular,
+        #lucide-svelte,
+        #lucide-preact,
+        #lucide-flutter,
         lucide-font,
+        lucide-figma,
       ]
 
     steps:
@@ -475,32 +545,34 @@ jobs:
         run: |
           mv lucide-package-json/package.json packages/lucide/package.json
           mv lucide-react-package-json/package.json packages/lucide-react/package.json
-          mv lucide-vue-package-json/package.json packages/lucide-vue/package.json
-          mv lucide-preact-package-json/package.json packages/lucide-preact/package.json
-          mv lucide-svelte-package-json/package.json packages/lucide-svelte/package.json
-          mv lucide-vue-next-package-json/package.json packages/lucide-vue-next/package.json
-          mv lucide-angular-package-json/package.json packages/lucide-angular/package.json
-          mv lucide-flutter-pubspec-yaml/pubspec.yaml packages/lucide-flutter/pubspec.yaml
+          # mv lucide-vue-package-json/package.json packages/lucide-vue/package.json
+          # mv lucide-preact-package-json/package.json packages/lucide-preact/package.json
+          # mv lucide-svelte-package-json/package.json packages/lucide-svelte/package.json
+          # mv lucide-vue-next-package-json/package.json packages/lucide-vue-next/package.json
+          # mv lucide-angular-package-json/package.json packages/lucide-angular/package.json
+          # mv lucide-flutter-pubspec-yaml/pubspec.yaml packages/lucide-flutter/pubspec.yaml
 
       - name: Commit package.jsons
         run: |
-          git add packages/*/package.json packages/lucide-flutter/pubspec.yaml
-          git -c user.name="Lucide Bot" -c user.email="lucide-bot@users.noreply.github.com" \
+          git add packages/*/package.json #packages/lucide-flutter/pubspec.yaml
+          git -c user.name="Lyle Underwood" -c user.email="lyleunderwoood@gmail.com" \
             commit -m ":package: Bump lucide package versions to ${{ needs.pre-build.outputs.VERSION }}" --no-verify --quiet
-          git remote set-url --push origin https://lucide-bot:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git
-          git push origin HEAD:master
+          git remote set-url --push origin https://lyleunderwood:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git
+          git push origin HEAD:main
 
       - name: Zip font and icons
         run: |
           zip -r lucide-font-${{ needs.pre-build.outputs.VERSION }}.zip lucide-font
+          zip -r lucide-figma-${{ needs.pre-build.outputs.VERSION }}.zip lucide-figma
           zip -r lucide-icons-${{ needs.pre-build.outputs.VERSION }}.zip icons
 
       - name: Release zip and fonts
         uses: softprops/action-gh-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.CREATE_RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ needs.pre-build.outputs.VERSION }}
           files: |
             lucide-font-${{ needs.pre-build.outputs.VERSION }}.zip
+            lucide-figma-${{ needs.pre-build.outputs.VERSION }}.zip
             lucide-icons-${{ needs.pre-build.outputs.VERSION }}.zip

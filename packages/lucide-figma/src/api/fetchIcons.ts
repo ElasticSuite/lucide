@@ -16,15 +16,15 @@ export interface LucideIcons {
 }
 
 export const fetchIcons = async (cachedIcons? : LucideIcons): Promise<LucideIcons> => {
-  const response = await fetch('https://unpkg.com/lucide-static@latest/package.json')
+  const response = await fetch('https://misc-elastic-dev.s3.us-west-2.amazonaws.com/lucide-static/package.json')
   const packageJson = await response.json();
 
   if(cachedIcons && cachedIcons?.version === packageJson.version) {
     return cachedIcons
   }
 
-  const iconNodesResponse = await fetch(`https://unpkg.com/lucide-static@${packageJson.version}/icon-nodes.json`)
-  const tagsResponse = await fetch('https://unpkg.com/lucide-static@latest/tags.json')
+  const iconNodesResponse = await fetch(`https://misc-elastic-dev.s3.us-west-2.amazonaws.com/lucide-static/icon-nodes.json`)
+  const tagsResponse = await fetch('https://misc-elastic-dev.s3.us-west-2.amazonaws.com/lucide-static/tags.json')
 
   const iconNodes = await iconNodesResponse.json();
   const tags = await tagsResponse.json();

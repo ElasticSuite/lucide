@@ -2,7 +2,7 @@ import getArgumentOptions from 'minimist'; // eslint-disable-line import/no-extr
 import githubApi from './githubApi';
 
 const fetchCompareTags = oldTag =>
-  githubApi(`https://api.github.com/repos/lucide-icons/lucide/compare/${oldTag}...master`);
+  githubApi(`https://api.github.com/repos/ElasticSuite/lucide/compare/${oldTag}...main`);
 
 const iconRegex = /icons\/(.*)\.svg/g;
 const iconTemplate = ({ name, pullNumber, author }) =>
@@ -29,7 +29,7 @@ const topics = [
 
 const fetchCommits = async file => {
   const commits = await githubApi(
-    `https://api.github.com/repos/lucide-icons/lucide/commits?path=${file.filename}`,
+    `https://api.github.com/repos/ElasticSuite/lucide/commits?path=${file.filename}`,
   );
 
   return { ...file, commits };

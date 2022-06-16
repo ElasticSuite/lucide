@@ -1,4 +1,4 @@
-import { createReactComponent } from 'lucide-react'
+import { createReactComponent } from '@elastic-internal/lucide-react'
 
 import IconButton from '../components/IconButton'
 import SearchInput from '../components/SearchInput'

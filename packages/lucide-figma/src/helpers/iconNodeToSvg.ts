@@ -1,11 +1,11 @@
-import { createReactComponent } from "lucide-react";
-import { createElement } from "react";
-import { renderToString } from "react-dom/server";
-import { IconNode } from "../api/fetchIcons";
+import { createReactComponent } from '@elastic-internal/lucide-react';
+import { createElement } from 'react';
+import { renderToString } from 'react-dom/server';
+import { IconNode } from '../api/fetchIcons';
 
-const iconNodeToSvg = (iconName: string, iconNode : IconNode) => {
-  const IconComponent = createReactComponent(iconName, iconNode)
-  return  renderToString(createElement(IconComponent));
-}
+const iconNodeToSvg = (iconName: string, iconNode: IconNode) => {
+  const IconComponent = createReactComponent(iconName, iconNode);
+  return renderToString(createElement(IconComponent));
+};
 
-export default iconNodeToSvg
+export default iconNodeToSvg;

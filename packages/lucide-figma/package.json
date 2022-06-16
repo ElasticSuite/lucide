@@ -1,5 +1,5 @@
 {
-  "name": "lucide-figma",
+  "name": "@elastic-internal/lucide-figma",
   "version": "0.15.11",
   "private": true,
   "license": "ISC",

@@ -1,13 +1,13 @@
 {
-  "name": "lucide-static",
+  "name": "@elastic-internal/lucide-static",
   "description": "Lucide is a community-run fork of Feather Icons, open for anyone to contribute icons.",
   "version": "0.16.19-rc.0",
   "license": "ISC",
   "homepage": "https://lucide.dev",
-  "bugs": "https://github.com/lucide-icons/lucide/issues",
+  "bugs": "https://github.com/ElasticSuite/lucide/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lucide-icons/lucide.git"
+    "url": "https://github.com/ElasticSuite/lucide.git"
   },
   "main": "lib/index.js",
   "scripts": {

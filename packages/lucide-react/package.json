@@ -1,7 +1,7 @@
 {
   "name": "@elastic-internal/lucide-react",
   "description": "A Lucide icon library package for React applications",
-  "version": "0.17.9",
+  "version": "0.61.0-elastic",
   "license": "ISC",
   "homepage": "https://lucide.dev",
   "bugs": "https://github.com/ElasticSuite/lucide/issues",

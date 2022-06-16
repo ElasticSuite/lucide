@@ -1,7 +1,7 @@
 {
   "name": "@elastic-internal/lucide",
   "description": "A Lucide icon library package for web and javascript applications.",
-  "version": "0.61.0-elastic",
+  "version": "0.62.0-elastic",
   "license": "ISC",
   "homepage": "https://lucide.dev",
   "bugs": "https://github.com/ElasticSuite/lucide/issues",

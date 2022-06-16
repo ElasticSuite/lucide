@@ -1,0 +1,30 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <g data-name="Padding" fill="#be1622">
+    <path opacity=".2" d="M0 0h24v1H0z" />
+    <path opacity=".2" d="M0 24V0h1v24zm23 0V0h1v24z" />
+    <path opacity=".2" d="M0 23h24v1H0z" />
+  </g>
+  <g
+    data-name="Draw"
+    fill="none"
+    stroke="#000"
+    stroke-linecap="round"
+    stroke-width="2"
+  >
+    <path d="M2 7.5h8m-8 4h6m-6 4h8" />
+    <path
+      d="M17 15.5a3.85 3.85 0 0 0 4-4 3.85 3.85 0 0 0-4-4 3.85 3.85 0 0 0-4 4 3.85 3.85 0 0 0 4 4Zm5 1-2-2"
+      stroke-linejoin="round"
+    />
+  </g>
+</svg>

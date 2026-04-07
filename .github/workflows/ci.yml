@@ -15,12 +15,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version: 22.x
           cache: 'yarn'
           cache-dependency-path: 'yarn.lock'
 
@@ -59,7 +59,7 @@ jobs:
           echo '${{ steps.change-log.outputs.CHANGE_LOG }}'
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.CREATE_RELEASE_TOKEN }}
         with:
